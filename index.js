@@ -1,6 +1,9 @@
-import { NativeModules } from 'react-native';
+import { TurboModuleRegistry } from 'react-native';
+// import RNCPing from './internal/NativePing';
+var RNCPing = TurboModuleRegistry ? 
+TurboModuleRegistry.get('RNCPing') :
+require('react-native').NativeModules.Ping;
 
-const { RNReactNativePing } = NativeModules;
 class Ping {
   /**
    *
@@ -14,13 +17,17 @@ class Ping {
    * @memberof Ping
    */
   static async start(ipAddress, option) {
-    const result = await RNReactNativePing.start(ipAddress, option);
+    console.log('start ping----121212', ipAddress, option, RNCPing);
+    const result = await RNCPing.start(ipAddress, option);
     return result;
   }
   static async getTrafficStats() {
-    const result = await RNReactNativePing.getTrafficStats();
+    const result = await RNCPing.getTrafficStats();
     return result;
   }
 }
 
 export default Ping;
+
+
+
