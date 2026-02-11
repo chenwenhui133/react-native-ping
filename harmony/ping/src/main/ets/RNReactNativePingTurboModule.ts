@@ -33,6 +33,7 @@ import type { TurboModuleContext } from '@rnoh/react-native-openharmony/ts';
 import { BusinessError } from '@kit.BasicServicesKit';
 import { statistics } from '@kit.NetworkKit';
 import { bundleManager } from '@kit.AbilityKit';
+import { http } from '@kit.NetworkKit';
 
 const TAG: string = 'PingHar';
 const DOMAIN: number = 0xD001;
@@ -314,14 +315,6 @@ export class RNReactNativePingTurboModule extends TurboModule {
     netCon.register((error: BusinessError) => {
       console.error('getTrafficStats-----', JSON.stringify(error));
     });
-    // 先使用on接口订阅网络可用事件。
-    netCon.on('netAvailable', (data: connection.NetHandle) => {
-      console.info("Succeeded to get data1: " + JSON.stringify(data));
-    });
-    // 先使用on接口订阅网络阻塞状态事件。
-    netCon.on('netBlockStatusChange', (data: connection.NetBlockStatusInfo) => {
-      console.info("Succeeded to get data2: " + JSON.stringify(data));
-    });
     // 先使用on接口订阅网络能力变化事件。
     netCon.on('netCapabilitiesChange', (data: connection.NetCapabilityInfo) => {
       linkUpBandwidthKbps = data.netCap.linkUpBandwidthKbps;
@@ -332,13 +325,68 @@ export class RNReactNativePingTurboModule extends TurboModule {
     netCon.on('netConnectionPropertiesChange', (data: connection.NetConnectionPropertyInfo) => {
       console.info("Succeeded to get data4: " + JSON.stringify(data));
     });
+
+    connection.getDefaultNet().then((netHandle: connection.NetHandle) => {
+      if (netHandle.netId == 0) {
+        // 当前没有已连接的网络时，netHandler的netId为0，属于异常场景。可根据实际情况添加处理机制。
+        return;
+      }
+      let host = "www.baidu.com";
+      netHandle.getAddressesByName(host).then((data: connection.NetAddress[]) => {
+        console.info("Succeeded to get data: " + JSON.stringify(data));
+      });
+    });
     return {
       linkUpBandwidthKbps,
       linkDownBandwidthKbps,
     }
   }
 
+  async httpPing(targetUrl: string, timeout: number = 3000): Promise<number> {
+    try {
+      let httpRequest = http.createHttp();
+      // 构造HTTP请求URL
+      const url = targetUrl.startsWith('http') ? targetUrl : `http://${targetUrl}`;
+
+      const options = {
+          url: url,
+          method: http.RequestMethod.GET,
+          connectTimeout: timeout,
+          readTimeout: timeout
+      }
+      let totalTiming = 0;
+      await httpRequest.request(url, options, (err: Error, data: http.HttpResponse) => {
+        if (!err) {
+          console.info('httpPing----Result:', JSON.stringify(data.performanceTiming.totalTiming));
+          if (data.responseCode === 200) {
+            totalTiming = data.performanceTiming.totalTiming
+          }
+        } else {
+          console.error('httpPing----error:' ,JSON.parse(JSON.stringify(err)).code);
+          const curErr = JSON.parse(JSON.stringify(err));
+          if (curErr.code === 2300028) {
+            throw new PingError('0', 'PingUtil_Message_Timeout');
+          }
+          // else if () {
+          //
+          // }
+          else if (curErr.code === 2300006 ) {
+            throw new PingError('2', 'PingUtil_Message_HostErrorNotSetHost');
+          } else if (curErr.code === 2300003 ) {
+            throw new PingError('4', 'PingUtil_Message_HostErrorUnknown');
+          }
+        }
+      });
+      // 返回响应时间表示连接成功
+      return totalTiming;
+    } catch (error) {
+      console.error('HTTP Ping failed:', JSON.stringify(error));
+      throw new PingError('5', 'PingUtil_Message_Unknown');
+    }
+  }
+
   async start(ipAddress: string, options: PingOptions = {}): Promise<number> {
+    this.httpPing(ipAddress, options.timeout);
     console.log('start ping----------RNReactNativePingTurboModule')
     const host = ipAddress?.trim();
     if (!host) {
@@ -350,7 +398,7 @@ export class RNReactNativePingTurboModule extends TurboModule {
 
     const netHandle = await ensureDefaultNet();
     const addresses = await resolveAddresses(netHandle, host);
-    console.log('start ping-------', JSON.stringify(ports), JSON.stringify(addresses))
+    console.log('start ping-------12111111', JSON.stringify(ports), JSON.stringify(addresses))
     if (!addresses.length) {
       throw new PingError('4', 'PingUtil_Message_HostErrorHostNotFound');
     }
