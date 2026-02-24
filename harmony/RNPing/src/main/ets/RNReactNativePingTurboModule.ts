@@ -34,6 +34,7 @@ import { BusinessError } from '@kit.BasicServicesKit';
 import { statistics } from '@kit.NetworkKit';
 import { bundleManager } from '@kit.AbilityKit';
 import { http } from '@kit.NetworkKit';
+import PingTool from 'libentry.so';
 
 const TAG: string = 'PingHar';
 const DOMAIN: number = 0xD001;
@@ -386,46 +387,68 @@ export class RNReactNativePingTurboModule extends TurboModule {
   }
 
   async start(ipAddress: string, options: PingOptions = {}): Promise<number> {
-    this.httpPing(ipAddress, options.timeout);
-    console.log('start ping----------RNReactNativePingTurboModule')
-    const host = ipAddress?.trim();
-    if (!host) {
-      throw new PingError('2', 'PingUtil_Message_HostErrorNotSetHost');
+    if (ipAddress == null || ipAddress === "") {
+      throw new PingError('2', "PingUtil_Message_HostErrorNotSetHost");
     }
-    const timeout = Math.max(options.timeout ?? DEFAULT_TIMEOUT, MIN_TIMEOUT);
-    const count = options.count ?? DEFAULT_COUNT;
-    const ports = buildPortList(host, options.port);
-
-    const netHandle = await ensureDefaultNet();
-    const addresses = await resolveAddresses(netHandle, host);
-    console.log('start ping-------12111111', JSON.stringify(ports), JSON.stringify(addresses))
-    if (!addresses.length) {
-      throw new PingError('4', 'PingUtil_Message_HostErrorHostNotFound');
+    let result = await PingTool.nativePing(ipAddress, 2)
+    let parseResult = JSON.parse(result)
+    if (parseResult.avgDelay == 2000) {
+      throw new PingError('3', "PingUtil_Message_HostErrorUnknown");
     }
+    return parseResult.avgDelay;
+  }
 
-    const samples: Array<number> = [];
-    for (let attempt = 0; attempt < count; attempt++) {
-      const rtt = await measureSingleRtt(netHandle, addresses, ports, timeout);
-      samples.push(rtt);
-      if (attempt < count - 1) {
-        await sleep(BETWEEN_ATTEMPTS_DELAY);
+  bytesToAvaiUnit(bytes: number): string {
+    if (bytes < 1024) { // B
+      return `${Math.floor(bytes)}B`; // 只保留整数
+    } else if (bytes >= 1024 && bytes < 1024 * 1024) { // KB
+      return `${(bytes / 1024.0).toFixed(1)}KB`;
+    } else if (bytes >= 1024 * 1024 && bytes < 1024 * 1024 * 1024) { // MB
+      return `${(bytes / (1024 * 1024.0)).toFixed(1)}MB`;
+    } else { // GB
+      return `${(bytes / (1024 * 1024 * 1024.0)).toFixed(1)}GB`;
+    }
+  }
+
+  private previousStats?: { rx: number; tx: number; timestamp: number };
+
+  async getTrafficStats(): Promise<TrafficStats> {
+    const receiveTotal = await statistics.getAllRxBytes();
+    const sendTotal = await statistics.getAllTxBytes();
+    const receivedNetworkTotal = this.bytesToAvaiUnit(receiveTotal);
+    const sendNetworkTotal = this.bytesToAvaiUnit(sendTotal);
+
+    const currentTime = Date.now();
+    let receivedNetworkSpeed = '0B/s';
+    let sendNetworkSpeed = '0B/s';
+
+    // 计算速度
+    if (this.previousStats) {
+      const timeDiff = (currentTime - this.previousStats.timestamp) / 1000; // 转换为秒
+      if (timeDiff > 0) {
+        const rxDiff = receiveTotal - this.previousStats.rx;
+        const txDiff = sendTotal - this.previousStats.tx;
+        const rxSpeed = rxDiff / timeDiff; // 字节每秒
+        const txSpeed = txDiff / timeDiff; // 字节每秒
+
+        receivedNetworkSpeed = `${this.bytesToAvaiUnit(rxSpeed)}/s`;
+        sendNetworkSpeed = `${this.bytesToAvaiUnit(txSpeed)}/s`;
       }
     }
 
-    const average = samples.reduce((acc, value) => acc + value, 0) / samples.length;
-    return Math.round(average);
-  }
+    // 更新上一次统计数据
+    this.previousStats = {
+      rx: receiveTotal,
+      tx: sendTotal,
+      timestamp: currentTime
+    };
 
-  async getTrafficStats(): Promise<TrafficStats> {
-    console.log('getTrafficStats------',this.ctx)
     try {
-      const registerInfo = this.addRegister();
-
       return {
-        receivedNetworkSpeed: `${formatBytes(registerInfo.linkDownBandwidthKbps)}/s`,
-        receivedNetworkTotal: formatBytes(0),
-        sendNetworkSpeed: `${formatBytes(registerInfo.linkUpBandwidthKbps)}/s`,
-        sendNetworkTotal: formatBytes(0)
+        receivedNetworkSpeed,
+        receivedNetworkTotal,
+        sendNetworkSpeed,
+        sendNetworkTotal
       };
     } catch (error) {
       hilog.error(DOMAIN, TAG, 'Traffic stats failed: %{public}s', `${error}`);

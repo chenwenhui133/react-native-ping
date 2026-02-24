@@ -1,0 +1,1 @@
+export const nativePing: (address: string, duration: number) => Promise<string>;

@@ -4,6 +4,14 @@
   "description": "Highly accurate ICMP Ping controller for React Native",
   "main": "index.js",
   "types": "index.d.ts",
+  "harmony": {
+    "alias": "react-native-ping",
+    "redirectInternalImports": true,
+    "autolinking": {
+      "cmakeLibraryTargetName": "rnoh_ping",
+      "ohPackageName": "@react-native-oh-tpl/react-native-ping"
+    }
+  },	
   "scripts": {
     "harmony": "react-native bundle-harmony --dev",
     "start": "react-native start",

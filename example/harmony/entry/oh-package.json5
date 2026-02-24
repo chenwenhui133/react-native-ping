@@ -5,7 +5,7 @@
   "description": "example description",
   "version": "1.0.0",
   "dependencies": {
-    "@rnoh/react-native-openharmony": "file:../react_native_openharmony.har",
-//    "@react-native-ohos/react-native-ping": "file:../ping",
+    "@rnoh/react-native-openharmony": "file:../../node_modules/react-native-harmony/react_native_openharmony.har",
+    "@react-native-ohos/react-native-ping": "file:../../node_modules/@react-native-ohos/react-native-ping/harmony/RNPing.har",
   }
 }
