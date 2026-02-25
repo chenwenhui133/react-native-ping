@@ -112,9 +112,9 @@ const ReactNativePingDemo = () => {
       case 'testInvalidHost':
         return testPing('invalid-host.example.com', '无效主机', { timeout: 5000 });
       case 'testShortTimeout':
-        return testPing('8.8.8.8', '短超时 (500ms)', { timeout: 500 });
+        return testPing('8.8.8.8', '设置探测时间 (500ms)', { timeout: 500 });
       case 'testLongTimeout':
-        return testPing('8.8.8.8', '长超时 (5000ms)', { timeout: 5000 });
+        return testPing('8.8.8.8', '设置探测时间 (5000ms)', { timeout: 5000 });
       case 'testNoHost':
         return testPing('', '未设置 host', { timeout: 5000 });  
       default:
@@ -212,15 +212,15 @@ const ReactNativePingDemo = () => {
           result={testResults['testInvalidHost']}
         />
         <TestCase
-          title="短超时"
-          description="测试 500ms 超时限制"
+          title="短探测时间"
+          description="测试 500ms 探测时间限制"
           onPress={() => runTest('testShortTimeout', () => runSingleTest('testShortTimeout'))}
           isLoading={loadingTests['testShortTimeout']}
           result={testResults['testShortTimeout']}
         />
         <TestCase
-          title="长超时"
-          description="测试 5000ms 超时限制"
+          title="长探测时间"
+          description="测试 5000ms 探测时间限制"
           onPress={() => runTest('testLongTimeout', () => runSingleTest('testLongTimeout'))}
           isLoading={loadingTests['testLongTimeout']}
           result={testResults['testLongTimeout']}
