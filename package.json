@@ -9,7 +9,7 @@
     "redirectInternalImports": true,
     "autolinking": {
       "cmakeLibraryTargetName": "rnoh_ping",
-      "ohPackageName": "@react-native-oh-tpl/react-native-ping"
+      "ohPackageName": "@react-native-ohos/react-native-ping"
     }
   },	
   "scripts": {

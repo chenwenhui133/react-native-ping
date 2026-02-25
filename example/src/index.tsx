@@ -13,7 +13,7 @@ import {
   ActivityIndicator,
   Alert,
 } from 'react-native';
-import Ping from 'react-native-ping';
+import Ping from '@react-native-ohos/react-native-ping';
 
 const TestCase = ({
   title,
@@ -108,11 +108,11 @@ const ReactNativePingDemo = () => {
       case 'testGoogleDNS':
         return testPing('8.8.8.8', 'Google DNS');
       case 'test114DNS':
-        return testPing('114.114.114.114', '114 DNS');
+        return testPing('114.114.114.114', '114 DNS', { timeout: 5000 });
       case 'testInvalidHost':
-        return testPing('invalid-host.example.com', '无效主机');
+        return testPing('invalid-host.example.com', '无效主机', { timeout: 5000 });
       case 'testShortTimeout':
-        return testPing('8.8.8.8', '短超时 (500ms)', { timeout: 100 });
+        return testPing('8.8.8.8', '短超时 (500ms)', { timeout: 500 });
       case 'testLongTimeout':
         return testPing('8.8.8.8', '长超时 (5000ms)', { timeout: 5000 });
       case 'testNoHost':
