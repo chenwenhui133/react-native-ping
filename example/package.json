@@ -20,7 +20,7 @@
     "react-native": "0.72.5",
     "react-native-harmony": "npm:@react-native-oh/react-native-harmony@0.72.59",
     "react-native-screens": "^3.29.0",
-    "@react-native-ohos/react-native-ping": "file:../react-native-ohos-react-native-ping-1.2.9-rc.1.tgz"
+    "@react-native-ohos/react-native-ping": "file:../react-native-ohos-react-native-ping-1.3.0-rc.1.tgz"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

@@ -37,8 +37,6 @@
     "react-native": ">=0.41.2"
   },
   "dependencies": {
-    "react-native-harmony": "^0.72.59",
-    "@rnoh/react-native-harmony-cli": "^0.0.28"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
