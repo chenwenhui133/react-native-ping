@@ -24,6 +24,7 @@
 import { RNPackage, TurboModulesFactory } from '@rnoh/react-native-openharmony/ts';
 import type { TurboModule, TurboModuleContext } from '@rnoh/react-native-openharmony/ts';
 import { RNReactNativePingTurboModule } from './RNReactNativePingTurboModule';
+import { RNOHPackage } from '@rnoh/react-native-openharmony';
 
 class RNReactNativePingTurboModulesFactory extends TurboModulesFactory {
   createTurboModule(name: string): TurboModule | null {
@@ -38,7 +39,7 @@ class RNReactNativePingTurboModulesFactory extends TurboModulesFactory {
   }
 }
 
-export class RNReactNativePingPackage extends RNPackage {
+export class RNReactNativePingPackage extends RNOHPackage {
   createTurboModulesFactory(ctx: TurboModuleContext): TurboModulesFactory {
     return new RNReactNativePingTurboModulesFactory(ctx);
   }

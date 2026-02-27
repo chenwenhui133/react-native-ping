@@ -2548,7 +2548,30 @@
     invariant "^2.2.4"
     nullthrows "^1.1.1"
 
-"@react-native-oh/react-native-harmony-cli@^0.0.41", "@react-native-oh/react-native-harmony-cli@0.0.41":
+"@react-native-oh/react-native-harmony-cli@^0.0.40":
+  version "0.0.40"
+  resolved "https://registry.npmjs.org/@react-native-oh/react-native-harmony-cli/-/react-native-harmony-cli-0.0.40.tgz"
+  integrity sha512-b4UgJaV6K00A17wcwQJZY6CPdblTkcZ4Few0VUWSs4yxtu7D61AeZFpCjtXdrbFe16sFDvH7Tg/3js9GM3AMsA==
+  dependencies:
+    "@react-native-community/cli-tools" "^13.6.5"
+    "@react-native/codegen" "0.74.0"
+    "@tsconfig/recommended" "^1.0.2"
+    adm-zip "^0.5.12"
+    case "^1.6.3"
+    chalk "^4"
+    commander "^14.0.0"
+    fs-extra "^11.1.1"
+    glob "^10.2.6"
+    ignore "^5.2.4"
+    inquirer "^12.7.0"
+    json5 "^2.2.3"
+    memfs "4.12.0"
+    metro "0.82.5"
+    mustache "^4.2.0"
+    tar "^6.1.15"
+    tmp "^0.2.1"
+
+"@react-native-oh/react-native-harmony-cli@^0.0.41":
   version "0.0.41"
   resolved "https://registry.npmjs.org/@react-native-oh/react-native-harmony-cli/-/react-native-harmony-cli-0.0.41.tgz"
   integrity sha512-+Pj/DhL4GPogsRtHim4yPGiHD+RSDfH99795wJ16El3d3VEhN1T+F2/wrPaf9mQyz1GR4gMKLTM0lIv8ym/p0w==
@@ -2571,12 +2594,12 @@
     tar "^6.1.15"
     tmp "^0.2.1"
 
-"@react-native-oh/react-native-harmony@^0.72.116-2":
-  version "0.72.116-2"
-  resolved "https://registry.npmjs.org/@react-native-oh/react-native-harmony/-/react-native-harmony-0.72.116-2.tgz"
-  integrity sha512-4wVYiB6QOAzFfn1vNxQQps55+sHxXrL8re3QwVnrD+DfuVcXjecJZKUGFqPCHQuP5/cvoQ8jpqqJdr5zzqCT6Q==
+"@react-native-oh/react-native-harmony@^0.72.101-2":
+  version "0.72.101-2"
+  resolved "https://registry.npmjs.org/@react-native-oh/react-native-harmony/-/react-native-harmony-0.72.101-2.tgz"
+  integrity sha512-JY3TMOazMtxV/iy43NfPAw0xEd9oEiduGEq2AaxXPJX38YC2yPK3zBFQUJjKGRUfNqJxgN5BSql65p+Q+c86tw==
   dependencies:
-    "@react-native-oh/react-native-harmony-cli" "0.0.41"
+    "@react-native-oh/react-native-harmony-cli" "^0.0.40"
     colors "^1.4.0"
     fs-extra "^11.1.1"
     metro "^0.76.3"

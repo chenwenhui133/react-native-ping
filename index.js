@@ -17,7 +17,6 @@ class Ping {
    * @memberof Ping
    */
   static async start(ipAddress, option) {
-    console.log('start ping----121212', ipAddress, option, RNCPing);
     const result = await RNCPing.start(ipAddress, option);
     return result;
   }

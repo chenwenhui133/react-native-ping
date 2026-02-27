@@ -8,10 +8,12 @@
     "alias": "react-native-ping",
     "redirectInternalImports": true,
     "autolinking": {
+      "etsPackageClassName":"RNReactNativePingPackage",
+      "cppPackageClassName":"RNCPingPackage",
       "cmakeLibraryTargetName": "rnoh_ping",
       "ohPackageName": "@react-native-ohos/react-native-ping"
     }
-  },	
+  },
   "scripts": {
     "harmony": "react-native bundle-harmony --dev",
     "start": "react-native start",
@@ -35,8 +37,8 @@
     "react-native": ">=0.41.2"
   },
   "dependencies": {
-    "@react-native-oh/react-native-harmony": "^0.72.116-2",
-    "@react-native-oh/react-native-harmony-cli": "^0.0.41"
+    "react-native-harmony": "^0.72.59",
+    "@rnoh/react-native-harmony-cli": "^0.0.28"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
@@ -44,12 +46,12 @@
     "@babel/runtime": "^7.20.0",
     "@react-native/eslint-config": "^0.72.2",
     "@react-native/metro-config": "^0.72.11",
-    "@tsconfig/react-native": "^3.0.0",
-    "@types/react": "^18.0.24",
-    "@types/react-test-renderer": "^18.0.0",
     "@semantic-release/changelog": "^5.0.1",
     "@semantic-release/git": "9.0.0",
+    "@tsconfig/react-native": "^3.0.0",
     "@types/jest": "^29.2.1",
+    "@types/react": "^18.0.24",
+    "@types/react-test-renderer": "^18.0.0",
     "@typescript-eslint/eslint-plugin": "^6.9.1",
     "@typescript-eslint/parser": "^6.9.1",
     "babel-jest": "^29.2.1",
