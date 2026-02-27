@@ -1,47 +1,40 @@
 {
   "name": "@react-native-ohos/react-native-ping",
   "version": "1.4.0-rc.1",
-  "description": "React Native Network Info API for harmonyOS",
+  "description": "Highly accurate ICMP Ping controller for React Native",
+  "main": "index.js",
+  "types": "index.d.ts",
   "harmony": {
-    "alias": "@react-native-ohos/react-native-ping"
+    "alias": "react-native-ping",
+    "redirectInternalImports": true,
+    "autolinking": {
+      "etsPackageClassName":"RNReactNativePingPackage",
+      "cppPackageClassName":"RNCPingPackage",
+      "cmakeLibraryTargetName": "rnoh_ping",
+      "ohPackageName": "@react-native-ohos/react-native-ping"
+    }
   },
-  "react-native": "src/index.ts",
-  "types": "lib/typescript/src/index.d.ts",
-  "main": "lib/commonjs/index.js",
-  "module": "lib/module/index.js",
-  "files": [
-    "/harmony",
-    "/windows",
-    "/macos",
-    "/src",
-    "/lib",
-    "/*.podspec",
-    "/jest"
-  ],
-  "author": "Matt Oakes <hello@mattoakes.net>",
-  "contributors": [
-    "Mike Diarmid (Salakar) <mike@invertase.io>"
-  ],
-  "homepage": "https://gitcode.com/openharmony-sig/rntpc_react-native-ping/tree/br_rnoh0.77#readme",
-  "license": "MIT",
   "scripts": {
-    "pack": "npm pack",
+    "harmony": "react-native bundle-harmony --dev",
     "start": "react-native start",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "yarn validate:eslint && yarn validate:typescript",
+    "validate:eslint": "eslint \"src/**/*.{js,ts,tsx}\"",
+    "validate:typescript": "tsc --project ./ --noEmit",
+    "codegen-lib": "react-native codegen-lib-harmony --no-safety-check --npm-package-name react-native-ping --cpp-output-path ./harmony/ping/src/main/cpp/generated --ets-output-path ./harmony/ping/src/main/ets/generated --turbo-modules-spec-paths ./src/internal/NativeRNCping.ts --arkts-components-spec-paths ./src"
   },
   "keywords": [
     "react-native",
-    "react native",
-    "react-native-ping",
-    "networking",
-    "network info"
+    "ping",
+    "react-native-ping"
   ],
-  "peerDependencies": {
-    "react-native": ">=0.59"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RoJoHub/react-native-ping"
   },
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org/",
-    "access": "public"
+  "author": "tiancailuohao@gmail.com",
+  "license": "MIT",
+  "peerDependencies": {
+    "react-native": ">=0.41.2"
   },
   "dependencies": {
   },
@@ -90,30 +83,5 @@
     "webpack": "^4.47.0",
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.11.3"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://gitcode.com/openharmony-sig/rntpc_react-native-ping.git"
-  },
-  "@react-native-community/bob": {
-    "source": "src",
-    "output": "lib",
-    "targets": [
-      "commonjs",
-      "module",
-      "typescript"
-    ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "pre-push": "yarn test"
-    }
-  },
-  "lint-staged": {
-    "*.{js,ts,tsx}": [
-      "yarn eslint --fix",
-      "git add"
-    ]
   }
 }
