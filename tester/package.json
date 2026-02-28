@@ -1,0 +1,55 @@
+{
+  "name": "react-native-harmony-tester",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "i": "cd ../ && npm i --legacy-peer-deps && npm pack && cd ./example && npm i",
+    "reStart": "npm run install:pkg && npm run codegen && hdc rport tcp:8081 tcp:8081 && react-native start",
+    "start": "hdc rport tcp:8081 tcp:8081 && react-native start",
+    "codegen": "react-native codegen-harmony --rnoh-module-path ./harmony/entry/oh_modules/@rnoh/react-native-openharmony",
+    "pack:pkg": "cd ../ && npm pack && cd ./example",
+    "dev": "npm run codegen && react-native bundle-harmony --dev --minify=false",
+    "prod": "npm run codegen && react-native bundle-harmony --dev=false --minify=true",
+    "postinstall": "node ./scripts/create-build-profile",
+    "fast:pkg": "cd ../ && npm i --legacy-peer-deps && npm pack && cd ./example && npm i && npm run dev"
+  },
+  "dependencies": {
+    "@babel/preset-typescript": "^7.27.1",
+    "@gorhom/portal": "^1.0.14",
+    "react-native-harmony": "0.82.7",
+    "@rnoh/testerino": "file:./rnoh_package/testerino/rnoh-testerino-0.0.12.tgz",
+    "memfs": "4.17.2",
+    "react": "19.1.1",
+    "react-native": "0.82.1",
+    "@react-native-ohos/react-native-ping": "file:../react-native-ping/react-native-ohos-react-native-ping-1.5.0-rc.1.tgz"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.25.2",
+    "@babel/preset-env": "^7.25.3",
+    "@babel/runtime": "^7.25.0",
+    "@babel/preset-typescript": "^7.27.1",
+    "@react-native-community/cli": "20.0.0",
+    "@react-native-community/cli-platform-android": "20.0.0",
+    "@react-native-community/cli-platform-ios": "20.0.0",
+    "@rnoh/react-native-harmony-cli": "0.82.7",
+    "@react-native/babel-preset": "0.82.1",
+    "@react-native/eslint-config": "0.82.1",
+    "@react-native/metro-config": "0.82.1",
+    "@react-native/typescript-config": "0.82.1",
+    "@types/jest": "^29.5.13",
+    "@types/react": "^19.1.0",
+    "@types/react-test-renderer": "^19.1.0",
+    "eslint": "^8.19.0",
+    "jest": "^29.7.0",
+    "prettier": "3.0.0",
+    "react-test-renderer": "18.3.1",
+    "typescript": "5.5.4"
+  },
+  "overrides": {
+    "@react-native-community/cli": "20.0.0"
+  },
+  "resolutions": {
+    "@babel/core": "^7.25.2",
+    "babel-loader": "^8.3.0"
+  }
+}
