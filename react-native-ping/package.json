@@ -1,0 +1,116 @@
+{
+  "name": "@react-native-ohos/react-native-ping",
+  "version": "1.2.8",
+  "description": "Highly accurate ICMP Ping controller for React Native",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "harmony": {
+    "alias": "react-native-ping",
+    "redirectInternalImports": true,
+    "autolinking": {
+      "etsPackageClassName":"RNReactNativePingPackage",
+      "cppPackageClassName":"RNCPingPackage",
+      "cmakeLibraryTargetName": "rnoh_ping",
+      "ohPackageName": "@react-native-ohos/react-native-ping"
+    }
+  },
+  "scripts": {
+    "harmony": "react-native bundle-harmony --dev",
+    "start": "react-native start",
+    "test": "yarn validate:eslint && yarn validate:typescript",
+    "validate:eslint": "eslint \"src/**/*.{js,ts,tsx}\"",
+    "validate:typescript": "tsc --project ./ --noEmit",
+    "codegen-lib": "react-native codegen-lib-harmony --no-safety-check --npm-package-name react-native-ping --cpp-output-path ./harmony/ping/src/main/cpp/generated --ets-output-path ./harmony/ping/src/main/ets/generated --turbo-modules-spec-paths ./src/internal/NativeRNCping.ts --arkts-components-spec-paths ./src"
+  },
+  "keywords": [
+    "react-native",
+    "ping",
+    "react-native-ping"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RoJoHub/react-native-ping"
+  },
+  "author": "tiancailuohao@gmail.com",
+  "license": "MIT",
+  "peerDependencies": {
+    "@dotlottie/react-player": "^1.6.1",
+    "@lottiefiles/dotlottie-react": "^0.6.5",
+    "@lottiefiles/react-lottie-player": "^3.5.3",
+    "react": "*",
+    "react-native": ">=0.46",
+    "react-native-windows": ">=0.63.x"
+  },
+  "peerDependenciesMeta": {
+    "@dotlottie/react-player": {
+      "optional": true
+    },
+    "@lottiefiles/dotlottie-react": {
+      "optional": true
+    },
+    "@lottiefiles/react-lottie-player": {
+      "optional": true
+    },
+    "react-native-windows": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@react-native-community/eslint-config": "^3.1.0",
+    "@release-it/conventional-changelog": "^5.1.1",
+    "@types/react": "^19.1.0",
+    "@types/react-native": "^0.70.14",
+    "@typescript-eslint/eslint-plugin": "^5.59.11",
+    "@typescript-eslint/parser": "^5.59.11",
+    "eslint": "^8.19.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "metro-react-native-babel-preset": "^0.73.10",
+    "prettier": "3.0.0",
+    "react": "19.1.1",
+    "react-native": "0.82.1",
+    "react-native-builder-bob": "^0.20.4",
+    "release-it": "^15.11.0",
+    "typescript": "5.5.4"
+  },
+  "contributors": [
+    {
+      "name": "Matin Zadeh Dolatabad",
+      "email": "me@matinzd.dev"
+    },
+    {
+      "name": "Parsa Nasirimehr",
+      "email": "p.nasirimehr@gmail.com"
+    }
+  ],
+  "react-native-builder-bob": {
+    "source": "src",
+    "output": "lib",
+    "targets": [
+      "commonjs",
+      "module",
+      "typescript"
+    ]
+  },
+  "release-it": {
+    "git": {
+      "commitMessage": "chore: release ${version}",
+      "tagName": "v${version}"
+    },
+    "npm": {
+      "publish": true
+    },
+    "github": {
+      "release": true
+    },
+    "plugins": {
+      "@release-it/conventional-changelog": {
+        "preset": "angular",
+        "infile": "../../CHANGELOG.md"
+      }
+    }
+  },
+  "dependencies": {
+    "lottie-react-native": "7.3.4"
+  }
+}
