@@ -19,6 +19,12 @@
 
 char* PingTool::Ping(char address[], int32_t duration)
 {
+    #ifdef OH_CURRENT_API_VERSION
+        if (OH_CURRENT_API_VERSION < 20 || OH_GetSdkApiVersion() < 20) {
+            LOG(ERROR) << "[svgForeignNode] current sdk or rom cannot support ForeignObject";
+            return nullptr;
+        }
+    #endif
     NetConn_ProbeResultInfo probeInfo;
     probeInfo.lossRate = 0;
     probeInfo.rtt[0] = 0;
