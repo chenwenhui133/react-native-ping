@@ -14,17 +14,32 @@
  */
 
 #include "PingTool.h"
+#include <deviceinfo.h>
+#include <dlfcn.h>
+
 #define LOG_DOMAIN 0xFF00
 #define LOG_TAG "NativePing"
+#define NUM_QueryProbeAPI 20
 
 char* PingTool::Ping(char address[], int32_t duration)
 {
-    #ifdef OH_CURRENT_API_VERSION
-        if (OH_CURRENT_API_VERSION < 20 || OH_GetSdkApiVersion() < 20) {
-            LOG(ERROR) << "[svgForeignNode] current sdk or rom cannot support ForeignObject";
-            return nullptr;
-        }
-    #endif
+    if (OH_GetSdkApiVersion() < NUM_QueryProbeAPI) {
+        OH_LOG_ERROR(LOG_APP, "SDK API version is too low, expected: %{public}d, actual: %{public}d", NUM_QueryProbeAPI, OH_GetSdkApiVersion());
+        return nullptr;
+    }
+    
+    void *funcHandle = dlopen("libnet_connection.so", RTLD_LAZY);
+    if (funcHandle == nullptr) {
+        OH_LOG_Print(LOG_APP, LOG_ERROR, LOG_DOMAIN, LOG_TAG, "libnet_connection.so dlopen failed");
+        return nullptr;
+    }
+    QueryProbe funcQueryProbe = reinterpret_cast<QueryProbe>(dlsym(funcHandle, "OH_NetConn_QueryProbeResult"));
+    if (funcQueryProbe == nullptr) {
+        OH_LOG_Print(LOG_APP, LOG_ERROR, LOG_DOMAIN, LOG_TAG, "dlsym OH_NetConn_QueryProbeResult failed");
+        dlclose(funcHandle);
+        return nullptr;
+    }
+
     NetConn_ProbeResultInfo probeInfo;
     probeInfo.lossRate = 0;
     probeInfo.rtt[0] = 0;
@@ -32,7 +47,8 @@ char* PingTool::Ping(char address[], int32_t duration)
     probeInfo.rtt[2] = 0;
     probeInfo.rtt[3] = 0;
 
-    int32_t ret = OH_NetConn_QueryProbeResult(address, duration, &probeInfo);
+    int32_t ret = funcQueryProbe(address, duration, &probeInfo);
+    dlclose(funcHandle);
 
     // ret!=0时代表调用出错
     if (ret != 0) {
