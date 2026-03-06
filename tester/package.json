@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@gorhom/portal": "^1.0.14",
-    "@react-native-ohos/react-native-ping": "file:../react-native-ping/react-native-ohos-react-native-ping-1.0.0-rc.1.tgz",
+    "@react-native-ohos/react-native-ping": "file:../react-native-ping/react-native-ohos-react-native-ping-1.0.0-rc.2.tgz",
     "memfs": "4.17.2",
     "react": "19.1.1",
     "react-native": "0.82.1",
