@@ -10,7 +10,7 @@ include_directories(${NATIVERENDER_ROOT_PATH}
                     ${NATIVERENDER_ROOT_PATH}/tool)
 
 set(BASE_LIBRARY
-    libace_napi.z.so libnet_connection.so libhilog_ndk.z.so)
+    libace_napi.z.so libnet_connection.so libhilog_ndk.z.so libdeviceinfo_ndk.z.so)
 
 file(GLOB_RECURSE rnoh_ping_generated_SRC "${rnoh_ping_generated_dir}/**/*.cpp")
 file(GLOB rnoh_ping_SRC CONFIGURE_DEPENDS *.cpp)

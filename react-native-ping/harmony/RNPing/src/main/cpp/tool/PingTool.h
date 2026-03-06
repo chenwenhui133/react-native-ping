@@ -26,6 +26,8 @@
 class PingTool {
 public:
     static char *Ping(char address[], int32_t duration);
+private:
+    typedef int32_t (*QueryProbe)(char *destination, int32_t duration, NetConn_ProbeResultInfo *probeResultInfo);
 };
 
 #endif // PINGTOOL_PINGTOOL_H
