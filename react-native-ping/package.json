@@ -29,31 +29,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/RoJoHub/react-native-ping"
+    "url": "https://github.com/react-native-oh-library/react-native-ping"
   },
-  "author": "tiancailuohao@gmail.com",
   "license": "MIT",
   "peerDependencies": {
-    "@dotlottie/react-player": "^1.6.1",
-    "@lottiefiles/dotlottie-react": "^0.6.5",
-    "@lottiefiles/react-lottie-player": "^3.5.3",
     "react": "*",
-    "react-native": ">=0.46",
-    "react-native-windows": ">=0.63.x"
-  },
-  "peerDependenciesMeta": {
-    "@dotlottie/react-player": {
-      "optional": true
-    },
-    "@lottiefiles/dotlottie-react": {
-      "optional": true
-    },
-    "@lottiefiles/react-lottie-player": {
-      "optional": true
-    },
-    "react-native-windows": {
-      "optional": true
-    }
+    "react-native": ">=0.46"
   },
   "devDependencies": {
     "@react-native-community/eslint-config": "^3.1.0",
@@ -69,7 +50,6 @@
     "prettier": "3.0.0",
     "react": "19.1.1",
     "react-native": "0.82.1",
-    "react-native-builder-bob": "^0.20.4",
     "release-it": "^15.11.0",
     "typescript": "5.5.4"
   },
@@ -83,15 +63,6 @@
       "email": "p.nasirimehr@gmail.com"
     }
   ],
-  "react-native-builder-bob": {
-    "source": "src",
-    "output": "lib",
-    "targets": [
-      "commonjs",
-      "module",
-      "typescript"
-    ]
-  },
   "release-it": {
     "git": {
       "commitMessage": "chore: release ${version}",
@@ -109,8 +80,5 @@
         "infile": "../../CHANGELOG.md"
       }
     }
-  },
-  "dependencies": {
-    "lottie-react-native": "7.3.4"
   }
 }
